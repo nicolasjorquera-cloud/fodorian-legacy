@@ -1,0 +1,32 @@
+@import "tailwindcss";
+
+:root {
+  --fodorian-orange: #ff6a00;
+  --fodorian-purple: #8a2be2; /* Púrpura Eléctrico */
+  --fodorian-bg: #050505;
+}
+
+@theme {
+  --color-fodorian-orange: var(--fodorian-orange);
+  --color-fodorian-purple: var(--fodorian-purple);
+  --color-fodorian-bg: var(--fodorian-bg);
+}
+
+html, body, #root {
+  background-color: #050505;
+  color: var(--fodorian-orange);
+  height: 100%;
+  overflow: hidden;
+  /* HALO PÚRPURA DIFUSO */
+  background-image: radial-gradient(circle at 50% 50%, rgba(138, 43, 226, 0.1) 0%, transparent 80%);
+}
+
+.scanline {
+  width: 100%; height: 2px; z-index: 50;
+  background: rgba(138, 43, 226, 0.05);
+  position: absolute; bottom: 100%;
+  animation: scanline 10s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes scanline { 0% { bottom: 100%; } 100% { bottom: 0%; } }
