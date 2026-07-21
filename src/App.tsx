@@ -42,7 +42,7 @@ export default function App() {
       
       setSessions(prev => prev.map(s => s.id === activeId ? { ...s, messages: [...newMessages, { role: "system", content: res }] } : s));
     } catch (e) {
-      setSessions(prev => prev.map(s => s.id === activeId ? { ...s, messages: [...newMessages, { role: "system", content: `ERR: ${e}` }] } : s));
+      setSessions(prev => prev.map(s => s.id === activeId ? { ...s, messages: [...newMessages, { role: "system", content: `Error interno. Contacta al administrador del sistema.` }] } : s));
     } finally {
       setIsProcessing(false);
     }
@@ -75,7 +75,7 @@ export default function App() {
 
       await handleSend(screenshotPrompt);
     } catch (e) {
-      await handleSend(`No se pudo capturar screenshot: ${e}`);
+      await handleSend(`No se pudo capturar screenshot. Verifica que grim/flameshot/maim esté instalado.`);
     } finally {
       setIsCapturing(false);
     }
@@ -135,7 +135,7 @@ export default function App() {
               const res: string = await invoke("ejecutar_comando_sandbox", { comando: cmd });
               await handleSend(`[STDOUT]:\n${res}`);
             } catch (e) {
-              await handleSend(`Error ejecutando comando sandbox: ${e}`);
+              await handleSend(`Error ejecutando comando en sandbox. El comando pudo haber fallado.`);
             }
           }} 
           onReject={(cmd: string) => {

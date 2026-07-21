@@ -1,10 +1,21 @@
 import { Send, Mic, Paperclip, Loader2, Camera } from "lucide-react";
 import { useRef, useState } from "react";
 
-export const CommandBar = ({ onSend, onCaptureScreenshot, disabled }: any) => {
+interface CommandBarProps {
+  onSend: (text: string) => void;
+  onCaptureScreenshot: () => void;
+  disabled: boolean;
+}
+
+export const CommandBar = ({ onSend, onCaptureScreenshot, disabled }: CommandBarProps) => {
   const [val, setVal] = useState("");
   const fileInputRef = useRef<HTMLInputElement>(null);
   const MAX_ATTACHMENT_CHARS = 20000;
+  const ALLOWED_EXTENSIONS = [
+    ".txt", ".log", ".csv", ".md", ".json", ".xml", ".yaml", ".yml",
+    ".toml", ".ini", ".cfg", ".conf", ".py", ".js", ".ts", ".rs",
+    ".html", ".css", ".sh", ".env", ".env.example",
+  ];
 
   const submit = () => {
     if (!val || disabled) return;
@@ -26,6 +37,14 @@ export const CommandBar = ({ onSend, onCaptureScreenshot, disabled }: any) => {
     };
 
     try {
+      const fileName = file.name.toLowerCase();
+      const isAllowed = ALLOWED_EXTENSIONS.some(ext => fileName.endsWith(ext));
+      if (!isAllowed) {
+        onSend(`[Archivo rechazado: "${file.name}". Tipo no permitido por seguridad.]`);
+        resetInput();
+        return;
+      }
+
       const text = await file.text();
       const trimmedText = text.length > MAX_ATTACHMENT_CHARS
         ? `${text.slice(0, MAX_ATTACHMENT_CHARS)}\n\n[...truncated ${text.length - MAX_ATTACHMENT_CHARS} chars]`

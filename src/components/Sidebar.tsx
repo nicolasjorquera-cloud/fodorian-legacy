@@ -1,6 +1,21 @@
 import { MessageSquare } from "lucide-react";
 
-export const Sidebar = ({ sessions, activeId, onNew, onSelect, onDelete }: any) => (
+interface Session {
+  id: string;
+  title: string;
+  messages: { role: string; content: string }[];
+  date?: string;
+}
+
+interface SidebarProps {
+  sessions: Session[];
+  activeId: string;
+  onNew: () => void;
+  onSelect: (id: string) => void;
+  onDelete: (id: string) => void;
+}
+
+export const Sidebar = ({ sessions, activeId, onNew, onSelect, onDelete }: SidebarProps) => (
   <aside className="w-72 border-r border-white/5 p-6 flex flex-col bg-[#050505]">
     <div className="mb-8">
       <h2 className="text-xl font-bold tracking-tighter text-fodorian-orange">FODORIAN OS <span className="text-[10px] bg-fodorian-orange text-black px-1 align-top ml-1">SYS</span></h2>
@@ -17,7 +32,7 @@ export const Sidebar = ({ sessions, activeId, onNew, onSelect, onDelete }: any) 
     <div className="flex-1 overflow-y-auto">
       <p className="text-[9px] opacity-20 mb-4 tracking-widest uppercase">Active Sessions</p>
       <div className="space-y-3">
-        {sessions.map((s: any) => (
+        {sessions.map((s: Session) => (
           <div
             key={s.id}
             onClick={() => onSelect(s.id)}

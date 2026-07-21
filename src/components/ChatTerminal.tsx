@@ -2,7 +2,19 @@ import ReactMarkdown from 'react-markdown';
 import { ShieldAlert, CheckCircle, XCircle, TerminalSquare } from "lucide-react";
 import { useEffect, useState } from 'react';
 
-export const ChatTerminal = ({ sessionId, messages, onApprove, onReject }: any) => {
+interface Message {
+  role: string;
+  content: string;
+}
+
+interface ChatTerminalProps {
+  sessionId: string;
+  messages: Message[];
+  onApprove: (cmd: string) => void;
+  onReject: (cmd: string) => void;
+}
+
+export const ChatTerminal = ({ sessionId, messages, onApprove, onReject }: ChatTerminalProps) => {
   // Estado para recordar qué comandos ya fueron procesados (aprobados o rechazados)
   const [processedCommands, setProcessedCommands] = useState<Set<number>>(new Set());
 
@@ -23,7 +35,7 @@ export const ChatTerminal = ({ sessionId, messages, onApprove, onReject }: any) 
 
   return (
     <div className="flex-1 overflow-y-auto p-12 space-y-8">
-      {messages.map((m: any, i: number) => {
+      {messages.map((m: Message, i: number) => {
         // Buscar la etiqueta <FODORIAN_EXEC>
         const execMatch = m.content.match(/<FODORIAN_EXEC>(.*?)<\/FODORIAN_EXEC>/s);
         const cleanText = m.content.replace(/<FODORIAN_EXEC>.*?<\/FODORIAN_EXEC>/s, "").trim();
