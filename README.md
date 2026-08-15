@@ -1,13 +1,17 @@
+---
+Notice: This repository is archived and not actively maintained. See .github/adr/0002-archive-fodorian-legacy.md for rationale and details.
+---
+
 # Fodorian Legacy
 
 An AI copilot for the terminal — chat with an LLM that can execute commands inside sandboxed containers, capture screenshots with OCR, and help you debug stuff.
 
-I built this in 6 weeks (March 21 – April 10, 2025) after only a month of coding. Before this, I had never touched Rust, Tauri, or any of this. The code is rough. There are no tests. Some variable names are in Spanish. But it works.
+I built this in 6 weeks (March 21 – April 10, 2025) after only a month of coding. Before this, I had never touched Rust, Tauri, or any of this. The code is rough. There are no tests. Some variabl[...]
 
 ## What it does
 
 - **Chat with Google Vertex AI** — send a prompt, get a response. The AI acts as a technical architect and proposes solutions.
-- **Execute commands in a sandbox** — the AI can suggest shell commands. If you approve them, they run inside an ephemeral Podman container with no network, read-only filesystem, and tight resource limits. Human-in-the-loop always.
+- **Execute commands in a sandbox** — the AI can suggest shell commands. If you approve them, they run inside an ephemeral Podman container with no network, read-only filesystem, and tight resou[...]
 - **Screenshot + OCR** — select a region of your screen (grim/slurp for Wayland, flameshot or maim for X11), optionally run OCR with tesseract, and the AI analyzes it.
 - **Attach files** — send log files, code, configs for the AI to read.
 - **Multiple sessions** — switch between independent chats.
@@ -69,7 +73,7 @@ Or drop a `.env` at `~/Documents/gcp-c/.env` and the app picks it up.
 
 ## Security notes
 
-No credentials are hardcoded. Everything comes from env vars. The Podman sandbox drops all capabilities, blocks network access, limits PIDs and memory. Commands go through a whitelist validator before execution. CSP is enforced in the WebView.
+No credentials are hardcoded. Everything comes from env vars. The Podman sandbox drops all capabilities, blocks network access, limits PIDs and memory. Commands go through a whitelist validator be[...]
 
 ## License
 
